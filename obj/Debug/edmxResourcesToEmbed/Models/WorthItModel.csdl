@@ -1,0 +1,497 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="WorthITDatabaseModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityContainer Name="WorthITDatabaseEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Addresses" EntityType="WorthITDatabaseModel.Address" />
+    <EntitySet Name="AspNetRoles" EntityType="WorthITDatabaseModel.AspNetRole" />
+    <EntitySet Name="AspNetUserClaims" EntityType="WorthITDatabaseModel.AspNetUserClaim" />
+    <EntitySet Name="AspNetUserLogins" EntityType="WorthITDatabaseModel.AspNetUserLogin" />
+    <EntitySet Name="AspNetUsers" EntityType="WorthITDatabaseModel.AspNetUser" />
+    <EntitySet Name="carouselBanners" EntityType="WorthITDatabaseModel.carouselBanner" />
+    <EntitySet Name="Carts" EntityType="WorthITDatabaseModel.Cart" />
+    <EntitySet Name="CartProducts" EntityType="WorthITDatabaseModel.CartProduct" />
+    <EntitySet Name="Categories" EntityType="WorthITDatabaseModel.Category" />
+    <EntitySet Name="Checkouts" EntityType="WorthITDatabaseModel.Checkout" />
+    <EntitySet Name="Countries" EntityType="WorthITDatabaseModel.Country" />
+    <EntitySet Name="Orders" EntityType="WorthITDatabaseModel.Order" />
+    <EntitySet Name="OrderProducts" EntityType="WorthITDatabaseModel.OrderProduct" />
+    <EntitySet Name="ProductImages" EntityType="WorthITDatabaseModel.ProductImage" />
+    <EntitySet Name="Products" EntityType="WorthITDatabaseModel.Product" />
+    <EntitySet Name="Reviews" EntityType="WorthITDatabaseModel.Review" />
+    <EntitySet Name="States" EntityType="WorthITDatabaseModel.State" />
+    <AssociationSet Name="FK_Address_AspNetUser" Association="WorthITDatabaseModel.FK_Address_AspNetUser">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Address" EntitySet="Addresses" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="WorthITDatabaseModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserClaim" EntitySet="AspNetUserClaims" />
+    </AssociationSet>
+    <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="WorthITDatabaseModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="AspNetUserLogin" EntitySet="AspNetUserLogins" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_AspNetUsers" Association="WorthITDatabaseModel.FK_Products_AspNetUsers">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserCart" Association="WorthITDatabaseModel.FK_UserCart">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Cart" EntitySet="Carts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserOrder" Association="WorthITDatabaseModel.FK_UserOrder">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Order" EntitySet="Orders" />
+    </AssociationSet>
+    <AssociationSet Name="FK_UserReviews" Association="WorthITDatabaseModel.FK_UserReviews">
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CartProductsCart" Association="WorthITDatabaseModel.FK_CartProductsCart">
+      <End Role="Cart" EntitySet="Carts" />
+      <End Role="CartProduct" EntitySet="CartProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_CartProductsProducts" Association="WorthITDatabaseModel.FK_CartProductsProducts">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="CartProduct" EntitySet="CartProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Products_Category" Association="WorthITDatabaseModel.FK_Products_Category">
+      <End Role="Category" EntitySet="Categories" />
+      <End Role="Product" EntitySet="Products" />
+    </AssociationSet>
+    <AssociationSet Name="FK_State_Country" Association="WorthITDatabaseModel.FK_State_Country">
+      <End Role="Country" EntitySet="Countries" />
+      <End Role="State" EntitySet="States" />
+    </AssociationSet>
+    <AssociationSet Name="FK_OrdersOrderProduct" Association="WorthITDatabaseModel.FK_OrdersOrderProduct">
+      <End Role="Order" EntitySet="Orders" />
+      <End Role="OrderProduct" EntitySet="OrderProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductsOrderProduct" Association="WorthITDatabaseModel.FK_ProductsOrderProduct">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="OrderProduct" EntitySet="OrderProducts" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductsProductImages" Association="WorthITDatabaseModel.FK_ProductsProductImages">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="ProductImage" EntitySet="ProductImages" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProductReviews" Association="WorthITDatabaseModel.FK_ProductReviews">
+      <End Role="Product" EntitySet="Products" />
+      <End Role="Review" EntitySet="Reviews" />
+    </AssociationSet>
+    <AssociationSet Name="AspNetUserRoles" Association="WorthITDatabaseModel.AspNetUserRoles">
+      <End Role="AspNetRole" EntitySet="AspNetRoles" />
+      <End Role="AspNetUser" EntitySet="AspNetUsers" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Address">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ShippingAddress1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingAddress2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="City" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="State" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="PostalCode" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Country" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Created" Type="DateTime" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="WorthITDatabaseModel.FK_Address_AspNetUser" FromRole="Address" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetRole">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUsers" Relationship="WorthITDatabaseModel.AspNetUserRoles" FromRole="AspNetRole" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserClaim">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="WorthITDatabaseModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaim" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUserLogin">
+    <Key>
+      <PropertyRef Name="LoginProvider" />
+      <PropertyRef Name="ProviderKey" />
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="WorthITDatabaseModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogin" ToRole="AspNetUser" />
+  </EntityType>
+  <EntityType Name="AspNetUser">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+    <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+    <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+    <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+    <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Addresses" Relationship="WorthITDatabaseModel.FK_Address_AspNetUser" FromRole="AspNetUser" ToRole="Address" />
+    <NavigationProperty Name="AspNetUserClaims" Relationship="WorthITDatabaseModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserClaim" />
+    <NavigationProperty Name="AspNetUserLogins" Relationship="WorthITDatabaseModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUser" ToRole="AspNetUserLogin" />
+    <NavigationProperty Name="Products" Relationship="WorthITDatabaseModel.FK_Products_AspNetUsers" FromRole="AspNetUser" ToRole="Product" />
+    <NavigationProperty Name="Carts" Relationship="WorthITDatabaseModel.FK_UserCart" FromRole="AspNetUser" ToRole="Cart" />
+    <NavigationProperty Name="Orders" Relationship="WorthITDatabaseModel.FK_UserOrder" FromRole="AspNetUser" ToRole="Order" />
+    <NavigationProperty Name="Reviews" Relationship="WorthITDatabaseModel.FK_UserReviews" FromRole="AspNetUser" ToRole="Review" />
+    <NavigationProperty Name="AspNetRoles" Relationship="WorthITDatabaseModel.AspNetUserRoles" FromRole="AspNetUser" ToRole="AspNetRole" />
+  </EntityType>
+  <EntityType Name="carouselBanner">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ImageSrc" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="Header" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Link" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="IsActive" Type="Int32" />
+  </EntityType>
+  <EntityType Name="Cart">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="AspNetUser" Relationship="WorthITDatabaseModel.FK_UserCart" FromRole="Cart" ToRole="AspNetUser" />
+    <NavigationProperty Name="CartProducts" Relationship="WorthITDatabaseModel.FK_CartProductsCart" FromRole="Cart" ToRole="CartProduct" />
+  </EntityType>
+  <EntityType Name="CartProduct">
+    <Key>
+      <PropertyRef Name="CartId" />
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="CartId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" />
+    <NavigationProperty Name="Cart" Relationship="WorthITDatabaseModel.FK_CartProductsCart" FromRole="CartProduct" ToRole="Cart" />
+    <NavigationProperty Name="Product" Relationship="WorthITDatabaseModel.FK_CartProductsProducts" FromRole="CartProduct" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Category">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Products" Relationship="WorthITDatabaseModel.FK_Products_Category" FromRole="Category" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Checkout">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CreditCardExpirationMonth" Type="Int32" Nullable="false" />
+    <Property Name="CreditCardExpirationYear" Type="Int32" Nullable="false" />
+    <Property Name="CreditCardNumber" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreditCardName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="CreditCardVerificationValue" Type="Int32" Nullable="false" />
+    <Property Name="Email" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingAddress1" Type="String" Nullable="false" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingAddress2" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingCity" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingCountry" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingState" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="ZipCode" Type="Int32" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Country">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryName" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="States" Relationship="WorthITDatabaseModel.FK_State_Country" FromRole="Country" ToRole="State" />
+  </EntityType>
+  <EntityType Name="Order">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="OrderNumber" Type="Guid" />
+    <Property Name="PurchaserEmail" Type="String" MaxLength="1000" FixedLength="false" Unicode="true" />
+    <Property Name="Completed" Type="DateTime" Precision="3" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="ShippingAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="BillingAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="WorthITDatabaseModel.FK_UserOrder" FromRole="Order" ToRole="AspNetUser" />
+    <NavigationProperty Name="OrderProducts" Relationship="WorthITDatabaseModel.FK_OrdersOrderProduct" FromRole="Order" ToRole="OrderProduct" />
+  </EntityType>
+  <EntityType Name="OrderProduct">
+    <Key>
+      <PropertyRef Name="OrderId" />
+      <PropertyRef Name="ProductId" />
+    </Key>
+    <Property Name="OrderId" Type="Int32" Nullable="false" />
+    <Property Name="ProductId" Type="Int32" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Order" Relationship="WorthITDatabaseModel.FK_OrdersOrderProduct" FromRole="OrderProduct" ToRole="Order" />
+    <NavigationProperty Name="Product" Relationship="WorthITDatabaseModel.FK_ProductsOrderProduct" FromRole="OrderProduct" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="ProductImage">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="ProductID" Type="Int32" />
+    <Property Name="ImagePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Product" Relationship="WorthITDatabaseModel.FK_ProductsProductImages" FromRole="ProductImage" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="Product">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Inventory" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="EventPrice" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="ShippingPrice" Type="Decimal" Precision="18" Scale="0" />
+    <Property Name="IsActive" Type="Int32" />
+    <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ManufacturingUserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="CategoryId" Type="Int32" />
+    <NavigationProperty Name="AspNetUser" Relationship="WorthITDatabaseModel.FK_Products_AspNetUsers" FromRole="Product" ToRole="AspNetUser" />
+    <NavigationProperty Name="CartProducts" Relationship="WorthITDatabaseModel.FK_CartProductsProducts" FromRole="Product" ToRole="CartProduct" />
+    <NavigationProperty Name="Category" Relationship="WorthITDatabaseModel.FK_Products_Category" FromRole="Product" ToRole="Category" />
+    <NavigationProperty Name="OrderProducts" Relationship="WorthITDatabaseModel.FK_ProductsOrderProduct" FromRole="Product" ToRole="OrderProduct" />
+    <NavigationProperty Name="ProductImages" Relationship="WorthITDatabaseModel.FK_ProductsProductImages" FromRole="Product" ToRole="ProductImage" />
+    <NavigationProperty Name="Reviews" Relationship="WorthITDatabaseModel.FK_ProductReviews" FromRole="Product" ToRole="Review" />
+  </EntityType>
+  <EntityType Name="Review">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProductId" Type="Int32" />
+    <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+    <Property Name="Rating" Type="Int32" Nullable="false" />
+    <Property Name="Header" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+    <Property Name="description" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Name="Like" Type="Int32" />
+    <Property Name="Abuse" Type="Int32" />
+    <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Modified" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="AspNetUser" Relationship="WorthITDatabaseModel.FK_UserReviews" FromRole="Review" ToRole="AspNetUser" />
+    <NavigationProperty Name="Product" Relationship="WorthITDatabaseModel.FK_ProductReviews" FromRole="Review" ToRole="Product" />
+  </EntityType>
+  <EntityType Name="State">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CountryId" Type="Int32" />
+    <Property Name="StateCode" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+    <Property Name="StateName" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Country" Relationship="WorthITDatabaseModel.FK_State_Country" FromRole="State" ToRole="Country" />
+  </EntityType>
+  <Association Name="FK_Address_AspNetUser">
+    <End Type="WorthITDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.Address" Role="Address" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Address">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+    <End Type="WorthITDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="WorthITDatabaseModel.AspNetUserClaim" Role="AspNetUserClaim" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserClaim">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+    <End Type="WorthITDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Type="WorthITDatabaseModel.AspNetUserLogin" Role="AspNetUserLogin" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AspNetUserLogin">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_AspNetUsers">
+    <End Type="WorthITDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="ManufacturingUserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserCart">
+    <End Type="WorthITDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.Cart" Role="Cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Cart">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserOrder">
+    <End Type="WorthITDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.Order" Role="Order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Order">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_UserReviews">
+    <End Type="WorthITDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.Review" Role="Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AspNetUser">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="UserId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CartProductsCart">
+    <End Type="WorthITDatabaseModel.Cart" Role="Cart" Multiplicity="1" />
+    <End Type="WorthITDatabaseModel.CartProduct" Role="CartProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Cart">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CartProduct">
+        <PropertyRef Name="CartId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_CartProductsProducts">
+    <End Type="WorthITDatabaseModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="WorthITDatabaseModel.CartProduct" Role="CartProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="CartProduct">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Products_Category">
+    <End Type="WorthITDatabaseModel.Category" Role="Category" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.Product" Role="Product" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Category">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Product">
+        <PropertyRef Name="CategoryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_State_Country">
+    <End Type="WorthITDatabaseModel.Country" Role="Country" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.State" Role="State" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Country">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="State">
+        <PropertyRef Name="CountryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_OrdersOrderProduct">
+    <End Type="WorthITDatabaseModel.Order" Role="Order" Multiplicity="1" />
+    <End Type="WorthITDatabaseModel.OrderProduct" Role="OrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Order">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="OrderId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductsOrderProduct">
+    <End Type="WorthITDatabaseModel.Product" Role="Product" Multiplicity="1" />
+    <End Type="WorthITDatabaseModel.OrderProduct" Role="OrderProduct" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="OrderProduct">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductsProductImages">
+    <End Type="WorthITDatabaseModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.ProductImage" Role="ProductImage" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ProductImage">
+        <PropertyRef Name="ProductID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProductReviews">
+    <End Type="WorthITDatabaseModel.Product" Role="Product" Multiplicity="0..1" />
+    <End Type="WorthITDatabaseModel.Review" Role="Review" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Product">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Review">
+        <PropertyRef Name="ProductId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AspNetUserRoles">
+    <End Type="WorthITDatabaseModel.AspNetRole" Role="AspNetRole" Multiplicity="*" />
+    <End Type="WorthITDatabaseModel.AspNetUser" Role="AspNetUser" Multiplicity="*" />
+  </Association>
+</Schema>

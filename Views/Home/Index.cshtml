@@ -1,0 +1,143 @@
+﻿@model IEnumerable<WorthIt.Models.carouselBanner>
+    @{ 
+        ViewBag.Title = "Home Page";
+        }
+
+    <section id="carousel-box">
+
+        <div id="main-banner" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        <li data-target="#main-banner" data-slide-to="@i" class="active"></li>
+                    }
+                    else
+                    {
+                        <li data-target="#main-banner" data-slide-to="@i" }></li>
+                    }
+
+                }   
+            </ol>
+            <div class="carousel-inner">
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        
+                        <div class="item active">
+                            <a href="@Url.Action("index", "home")">
+                                <img alt="slide @Model.ElementAt(i).Id" src="@Model.ElementAt(i).ImageSrc">
+                                <div class="container">
+                                    <div class="carousel-caption">
+                                        <h1>@Model.ElementAt(i).Header</h1>
+                                        <h4>@Model.ElementAt(i).Description</h4>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        
+                    }
+                    else
+                    {
+                        <div class="item">
+                            <img alt="slide @Model.ElementAt(i).Id" src="@Model.ElementAt(i).ImageSrc">
+                            <div class="container">
+                                <div class="carousel-caption">
+                                    <h1>@Model.ElementAt(i).Header</h1>
+                                    <p>@Model.ElementAt(i).Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                }
+            </div>
+
+            <!-- carousel button -->
+            <a class="left carousel-control" href="#main-banner" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
+            <a class="right carousel-control" href="#main-banner" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+    </section>
+
+    <section id="products-body" ng-controller="products">
+        <div class="container-fluid relative row">
+            <div class="products col-sm-6 col-xs-6 col-md-3">
+                <a href="@Url.Action("Index", "Product", new { id = "Light" })" ng-mouseover="lightShow = true">
+                    <div class="product light">
+                        <img class="product-image" src="~/Content/images/products/light/light.jpg" alt="Light" />
+                        <div ng-show="lightShow" ng-mouseleave="lightShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="lightShow" class="absolute product-name">Light</h1>
+                    </div>
+                </a>
+                <a href="@Url.Action("Index", "Product", new { id = "Bag" })" ng-mouseover="bagShow = true">
+                    <div class="product bag">
+                        <img class="product-image" src="~/Content/images/products/bag/bag.jpg" alt="Bag" />
+                        <div ng-show="bagShow" ng-mouseleave="bagShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="bagShow" class="absolute product-name">Bag</h1>
+                    </div>
+                </a>
+                <a href="@Url.Action("Index", "Product", new { id = "Clock" })" ng-mouseover="clockShow = true">
+                    <div class="product clock">
+                        <img class="product-image" src="~/Content/images/products/clock/clock.jpg" alt="Bag" />
+                        <div ng-show="clockShow" ng-mouseleave="clockShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="clockShow" class="absolute product-name">Clock</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="products col-sm-6 col-xs-6 col-md-3">
+                <a href="@Url.Action("Index", "Product", new { id = "Cloth" })" ng-mouseover="clothShow = true">
+                    <div class="product clothes">
+                        <img class="product-image" src="~/Content/images/products/clothes/clothes.jpg" alt="Clothes" />
+                        <div ng-show="clothShow" ng-mouseleave="clothShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="clothShow" class="absolute product-name">Cloth</h1>
+                    </div>
+                </a>
+                <a href="@Url.Action("Index", "Product", new { id = "Instrument" })" ng-mouseover="instrumentShow = true">
+                    <div class="product guitar">
+                        <img class="product-image" src="~/Content/images/products/guitar.jpg" alt="Music Instructure" />
+                        <div ng-show="instrumentShow" ng-mouseleave="instrumentShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="instrumentShow" class="absolute product-name">Instrument</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="products col-sm-6 col-xs-6 col-md-3">
+                <a href="@Url.Action("Index", "Product", new { id = "Table" })" ng-mouseover="tableShow = true">
+                    <div class="product table">
+                        <img class="product-image" src="~/Content/images/products/table.jpg" alt="Table" />
+                        <div ng-show="tableShow" ng-mouseleave="tableShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="tableShow" class="absolute product-name">Table</h1>
+                    </div>
+                </a>
+                <a href="@Url.Action("Index", "Product", new { id = "Chair" })" ng-mouseover="chairShow = true">
+                    <div class="product chair">
+                        <img class="product-image" src="~/Content/images/products/chair.png" alt="Chair" />
+                        <div ng-show="chairShow" ng-mouseleave="chairShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="chairShow" class="absolute product-name">Chair</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="products col-sm-6 col-xs-6 col-md-3">
+                <a href="@Url.Action("Index", "Product", new { id = "Pet" })" ng-mouseover="petShow = true">
+                    <div class="product pet">
+                        <img class="product-image" src="~/Content/images/products/pet.jpg" alt="Pet" />
+                        <div ng-show="petShow" ng-mouseleave="petShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="petShow" class="absolute product-name">Pet</h1>
+                    </div>
+                </a>
+                <a href="@Url.Action("Index", "Product", new { id = "BookShelf" })" ng-mouseover="bookshelfShow = true">
+                    <div class="product furniture">
+                        <img class="product-image" src="~/Content/images/products/furniture.jpg" alt="Furniture" />
+                        <div ng-show="bookshelfShow" ng-mouseleave="bookshelfShow = false" class="absolute product-bg"> </div>
+                        <h1 ng-show="bookshelfShow" class="absolute product-name">BookShelf</h1>
+                    </div>
+                </a>
+            </div>
+            <div class="absolute col-sm-12 col-xs-12 sort-desc">
+                <h1 class="sort-header">Let's make our world a better place to live</h1><h2>Are there things around your house that you don't need?<br /> Sell them or make something with them</h2>
+            </div>
+        </div>
+
+    </section>
+

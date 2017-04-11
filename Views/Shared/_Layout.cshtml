@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WorthIt - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body ng-app="worthItApp">
+    @*<div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>
+            </div>
+        </div>
+    </div>*@
+    <div class="container-fluid" ng-controller="searchBar">
+        <div class="nav navbar" id="home-header">
+            <div class="absolute">
+                <a href="@Url.Action("Index", "Home")">
+                    <img id="logo" src="@Url.Content("~/Content/images/logo.png")" alt="logo">
+                </a>
+            </div>
+            <div class="input-group">
+                <span class="input-group-btn">
+                    <button class="btn" id="search-btn" type="button"><span class="glyphicon glyphicon-search"></span></button>
+                </span>
+                <input id="search-bar" type="search" name="shared-search" class="form-control" placeholder="Search.." ng-model="searchingWord" ng-change="search(searchingWord)">
+                <ul class="data-ctrl" ng-show="searching" ng-mouseleave="searching = false">
+                    <li ng-repeat="item in items | filter: searchingWord">
+                        <a href="{{item.URL}}">{{item.Name}} </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="flex" id="home-header-bottom">
+            <div>
+                <div class="dropdown">
+                    <a class="" id="department" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        Department
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="department">
+                        @foreach (WorthIt.Models.Category item in ViewBag.Categories)
+                        {
+                            <li>
+                                @Html.ActionLink(item.Name, "Index", "Product", new { id = item.Name }, new { })
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div>
+                <ul class="home-header-menu">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Welcome " + User.Identity.Name.Split('@')[0], "Logout", "Account")</li>
+                        <li><a href="@Url.Action("Index", "Cart")"><span class="glyphicon glyphicon-shopping-cart"></span>&ensp;Cart <span class="badge">@ViewBag.cartCount</span></a></li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink("Sign up", "register", "Account")</li>
+                        <li>@Html.ActionLink("Log In", "login", "Account")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <div class="footer-desc">
+                <h1>Save the World: Upcycled </h1>
+                <div class="col-md-12 row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-2">
+                        <h3><span>&nbsp; Technology &nbsp;</span></h3>
+                        <p>Electronic</p>
+                        <p>Computer</p>
+                    </div>
+                    <div class="col-md-2">
+                        <h3><span>&nbsp; Contact &nbsp;</span></h3>
+                        <p>Cell phone</p>
+                        <p>Email</p>
+                        <p>Fax</p>
+                    </div>
+                    <div class="col-md-2">
+                        <h3><span>&nbsp; Education &nbsp;</span></h3>
+                    </div>
+                    <div class="col-md-2">
+                        <h3><span>&nbsp; Other &nbsp;</span></h3>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+
+                <h5 class="copyright">&copy; @DateTime.Now.Year - By Jinseong</h5>
+            </div>
+            <div class="social-div">
+                <img class="social-icon" src="/Content/images/social-icon/facebook.png" />
+                <img class="social-icon" src="/Content/images/social-icon/instagram.png" />
+                <img class="social-icon" src="/Content/images/social-icon/twitter.png" />
+                <img class="social-icon" src="/Content/images/social-icon/youtube.png" />
+            </div>
+            
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/worthitscript")
+    
+    @RenderSection("scripts", required: false)
+</body>
+</html>

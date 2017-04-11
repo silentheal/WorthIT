@@ -1,0 +1,23 @@
+﻿@model IEnumerable<WorthIt.Models.OrderProduct>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="container">
+    <div class="payment-complete-message">
+        <h2>Thanks for you order!</h2>
+        <h4>Items in below sent your place :D</h4>
+    </div>
+
+
+    <div>
+        <ul>
+            @foreach (var orderProduct in Model)
+            {
+                <li>@orderProduct.Product.Name<span class="pull-right">@orderProduct.Quantity</span></li>
+            }
+        </ul>
+    </div>
+</div>
+
+

@@ -1,0 +1,68 @@
+﻿@model IEnumerable<WorthIt.Models.CartProduct>
+@{
+    ViewBag.Title = "Add";
+    decimal cartPrice = ViewBag.cartPriceSum;
+}
+
+<div class="by-margin-screen row" ng-controller="cart">
+    <div class="cart-product-list col-md-8">
+        
+        @if (Model != null)
+        {
+            <div class="cart-product-header">
+                <div class="col-md-8">
+                    <h2>Name</h2>
+                </div>
+                <div class="col-md-2">
+                    <h2>Price</h2>
+                </div>
+                <div class="col-md-2">
+                    <h2>Quantity</h2>
+                </div>
+            </div>
+            foreach (var item in Model)
+            {
+                <div class="cart-product">
+                    <div class="col-md-8">
+                        <img class="cart-images" src=@item.Product.ProductImages.First(x => x.ProductID == item.ProductId).ImagePath />
+                        <div class="cart-desc">
+                            <h3>@item.Product.Name</h3>
+                            <h5>By @item.Product.AspNetUser.UserName.Split('@')[0]</h5>
+                            <p ng-show = "false" id="productPrice">@item.Product.Price</p>
+                            <a href="#" id="delete-cart-item" ng-click="delete(@item.ProductId)">Delete This Item</a>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <h3>@item.Product.Price.Value.ToString("C")</h3>
+                    </div>
+                    <div class="col-md-2">
+                        <h3>
+                            <input id="cartItemsQuantities" class="form-control" type="number" value="@item.Quantity" ng-blur="changeQuantites(@item.ProductId, @item.Product.Inventory)" min="1" max="@item.Product.Inventory"/>
+                        </h3>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <h2 class="no-item-cart">Don't have Items in Cart</h2>
+        }
+    </div>
+    <div class="col-md-4">
+        <div class="cart-totalInfo">
+            @if (Model != null)
+            {
+                <h1><span>SubTotal(@Model.Count() item):</span> @cartPrice.ToString("C")</h1>
+            }
+            else
+            {
+                <h1>SubTotal: 0</h1>
+            }
+            <div class="submit-div">                
+                
+                <input type="submit" class="btn btn-success btn-lg" value="Proceed to Checkout" onclick="location.href='@Url.Action("index", "checkout")'" />
+            </div>
+        </div>
+    </div>
+</div>
+

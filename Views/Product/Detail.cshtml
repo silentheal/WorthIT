@@ -1,0 +1,384 @@
+﻿@model WorthIt.Models.Product
+@{
+    ViewBag.Title = "Detail";
+    IEnumerable<WorthIt.Models.Product> equalCategoryItems = ViewBag.equalCategoryItems;
+    if (Model != null && Model.Reviews.Count != 0)
+    {
+        ViewBag.Review5 = (Model.Reviews.Count(x => x.Rating > 4) * 100 / Model.Reviews.Count()).ToString("0\\%");
+        ViewBag.Review4 = (Model.Reviews.Count(x => x.Rating > 3 && x.Rating <= 4) * 100 / Model.Reviews.Count()).ToString("0\\%");
+        ViewBag.Review3 = (Model.Reviews.Count(x => x.Rating > 2 && x.Rating <= 3) * 100 / Model.Reviews.Count()).ToString("0\\%");
+        ViewBag.Review2 = (Model.Reviews.Count(x => x.Rating > 1 && x.Rating <= 2) * 100 / Model.Reviews.Count()).ToString("0\\%");
+        ViewBag.Review1 = (Model.Reviews.Count(x => x.Rating > 0 && x.Rating <= 1) * 100 / Model.Reviews.Count()).ToString("0\\%");
+    }
+    else
+    {
+        ViewBag.Review5 = 0;
+        ViewBag.Review4 = 0;
+        ViewBag.Review3 = 0;
+        ViewBag.Review2 = 0;
+        ViewBag.Review1 = 0;
+    }
+
+    var reviewModel = new WorthIt.Models.Review();
+
+    var ratingList = new List<SelectListItem>() {
+        new SelectListItem { Text = "5", Value = "5" },
+        new SelectListItem { Text = "4", Value = "4" },
+        new SelectListItem { Text = "3", Value = "3" },
+        new SelectListItem { Text = "2", Value = "2" },
+        new SelectListItem { Text = "1", Value = "1" }
+    };
+
+    var countImages = Model.ProductImages.Count();
+}
+
+<section class="container-fluid row by-margin-screen" id="products-detail-body" ng-controller="detail">
+    <div class="col-xs-12 col-md-5">
+        <div class="product-image-group row">
+            <div class="product-images col-md-2 col-xs-2 col-sm-2">
+                @for (int i = 0; i < countImages; i++)
+                {
+                    <img class="product-image-mini" src="@Model.ProductImages.ElementAt(i).ImagePath" ng-mouseover="changeImage('@Model.ProductImages.ElementAt(i).ImagePath.ToString()')" />
+                }
+            </div>
+            <div class="product-image-box col-md-10">
+                <img class="product-image-original" src=@Model.ProductImages.First(x => x.ProductID == Model.Id).ImagePath />
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-md-7 products-detail relative">
+        <h2 class="product-name">@Model.Name</h2>
+        <h3 class="product-manufacturer">By @(Model.AspNetUser != null ? Model.AspNetUser.UserName.Split('@')[0] : string.Empty)</h3>
+        <h3 class="product-rate">
+            @if (Model.Reviews.Count() > 0)
+            {
+                for (int i = 0; i < Model.Reviews.Average(x => x.Rating); i++)
+                {
+                    <span>&hearts;</span>
+                }
+                <span class="product-review">(@Model.Reviews.Count())</span>
+            }
+            else
+            {
+                <span>Be a first Reviewer</span>
+            }
+            
+        </h3>
+        <h3 class="product-price">@Model.Price.Value.ToString("C")</h3>
+        @if (Model.ShippingPrice > 0m)
+    {
+            <h5 class="product-shipping">Shipping Price: @Model.ShippingPrice.Value.ToString("C")</h5>
+        }
+        else
+        {
+            <h5 class="product-shipping">Free Shipping</h5>
+        }
+        
+        <h4 class="product-description">
+            @Model.Description
+        </h4>
+        <form class="form-group btn-cart">
+            <button class="btn btn-default btn-lg" ng-click="addToCart(@Model.Id)">Add to cart</button>
+            @if (Model.Inventory != 0)
+             {
+                @Html.ActionLink("Buy Now", "index", "cart", null, new { @class = "btn btn-success btn-lg" })
+            }
+            else
+            {
+                <button class="btn btn-success btn-lg btn-disable">Buy Now</button>
+            }
+        </form>
+    </div>
+</section>
+
+<section class="by-margin-screen" id="relative-items" ng-controller="scrollRelative">
+    <h3 class="relative-items">
+        Relative Items
+    </h3>
+    <div class="relative-items-list">
+        <div id="relative-items-carousel" class="carousel slide">
+            <div>
+                <div class="relative-carousel-inner">
+                    <div class="item">
+                        @foreach (WorthIt.Models.Product item in equalCategoryItems)
+                        {
+                            if (item.Id != Model.Id)
+                            {
+                                <a href="@Url.Action("detail", "product" , new { id = item.Id, name = item.Category.Name })">
+                                    <img class="relative-product-image-list" src="@item.ProductImages.First().ImagePath" />
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <a class="left carousel-control relative-scroll-to-left"><span class="glyphicon glyphicon-chevron-left"></span></a>
+            <a class="right carousel-control relative-scroll-to-right"><span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+    </div>
+</section>
+
+<section class="by-margin-screen" id="seller-items" ng-controller="scrollSeller">
+    <h3 class="seller-items">
+        Seller's other Item
+    </h3>
+    <div class="seller-items-list">
+        <div id="seller-items-carousel" class="carousel slide">
+            <div>
+                <div class="seller-carousel-inner">
+                    <div class="item">
+                        @foreach (WorthIt.Models.Product item in ViewBag.manufactererItems)
+                        {
+                            if (item.Id != Model.Id)
+                            {
+                                /**/
+                                <a href="@Url.Action("detail", "product" , new { id = item.Id, name = item.Category.Name })">
+                                    <img class="seller-product-image-list" src="@item.ProductImages.First().ImagePath" />
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+            <a class="left carousel-control seller-scroll-to-left"><span class="glyphicon glyphicon-chevron-left"></span></a>
+            <a class="right carousel-control seller-scroll-to-right"><span class="glyphicon glyphicon-chevron-right"></span></a>
+        </div>
+    </div>
+</section>
+
+<section>
+    <div class="by-margin-screen" id="product-detail-info">
+        <h3>Detail Information</h3>
+        <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quia harum consequatur quidem, inventore placeat, dolorem odio. Totam a deleniti ipsam, cumque iste sequi velit rerum aspernatur laboriosam hic nam consectetur est voluptate nihil molestias magnam eos optio explicabo, suscipit. Praesentium dicta, quis ad rerum in aut asperiores delectus eos porro nam dolorem quibusdam vitae, cumque recusandae, ipsum assumenda earum quisquam saepe explicabo. Dolores temporibus, illo quaerat unde alias consequuntur pariatur illum voluptatem ratione sed voluptatibus ipsa omnis quasi accusantium cupiditate, veritatis rerum ab inventore quidem dolor ad laborum corrupti dicta facere! Ipsum eaque assumenda eveniet perspiciatis esse non sit inventore.</h5><br />
+        <h5>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eum id repellendus dicta numquam adipisci eveniet saepe doloremque inventore commodi similique accusamus atque, aliquam in recusandae temporibus sunt vero quod labore soluta tempore! Nostrum necessitatibus quae sit pariatur magnam repellendus reprehenderit voluptates, maxime voluptatem voluptas, impedit esse dolorum, unde corrupti eaque aliquid recusandae perspiciatis? Vel aperiam assumenda quia est doloribus enim natus nulla. Esse eum accusantium repellendus sit dicta ad doloremque asperiores velit aliquam corporis vero, maiores, quibusdam aut perferendis minima unde debitis illum dignissimos rerum, possimus nam enim! Aliquam fugiat, maiores inventore doloremque libero accusantium ut neque vitae aut eaque nihil, tenetur sequi tempora placeat quibusdam dolores obcaecati! Ducimus quis, accusantium quos? Delectus, illo! Iure, nobis, et. Eum assumenda magnam ea dignissimos temporibus minima, corporis nisi harum exercitationem fuga veritatis, non. Enim harum non animi quas provident fugit similique earum molestias culpa. Quos adipisci fuga, ad repudiandae tempore itaque laborum dolorem neque, laboriosam animi eius debitis consectetur ut recusandae quibusdam rerum excepturi libero ullam molestiae eveniet blanditiis? Sit, animi ipsam, consequuntur dolores perspiciatis autem veritatis alias ex aliquam dicta quam dignissimos tempora laudantium, necessitatibus soluta tenetur sapiente asperiores totam ab deleniti ipsa? Perspiciatis, totam! Commodi ea illo aut, dolores obcaecati vitae eaque, deleniti perferendis reiciendis et quas tempore, quasi harum doloribus ipsam error esse, voluptatem laboriosam sapiente aspernatur nostrum! Dignissimos quod ex ullam eum cumque voluptate officia possimus pariatur laudantium tenetur iste sit placeat, cupiditate distinctio aliquid impedit nam. Porro laboriosam ex quibusdam. Atque aspernatur aut, est dignissimos, facilis, porro ab sequi dicta expedita eos deleniti, vitae saepe repellendus. Quae, eligendi, officiis reprehenderit corporis aliquam voluptas nobis commodi nostrum amet quis dolore ipsa aperiam cumque eaque incidunt consectetur aliquid iure in necessitatibus! Inventore placeat voluptatum, est illo quod dolore harum aliquam incidunt, at deserunt quam, nemo hic dignissimos voluptates unde porro! Cupiditate reiciendis asperiores ullam officia, qui aperiam blanditiis facere, similique iusto cum praesentium magnam libero delectus, necessitatibus veniam possimus eligendi. Tenetur vero tempora cupiditate eveniet. Amet, dolores, quas. Delectus, iusto officiis, odit facere voluptatem error veniam a et, animi natus voluptatibus! Ipsa, praesentium. Quibusdam molestias repellendus incidunt corporis placeat expedita, suscipit, libero soluta doloribus eveniet dolor at ipsam fugiat! Voluptates illum quas, perspiciatis minus eos quidem praesentium, necessitatibus vitae sapiente voluptatem delectus similique dolor et ex soluta odio nostrum suscipit fugiat nihil omnis accusamus. Aut odio, maxime fugiat soluta placeat, illo provident dolore, cupiditate, repudiandae fugit eius rem ad.</h5>
+    </div>
+</section>
+
+<section class="row" id="review-detail" ng-controller="reviewControl">
+    <div class="by-margin-screen">
+        <h3>Review</h3>
+        <div id="review-table">
+            <div class="col-md-3">
+                <div class="review-rating">
+
+                 @if (Model.Reviews != null)
+                 {
+                     /**/
+                     <div class="review-rating-detail relative">
+                         <div class="row">
+                             <div class="col-md-2">
+                                 <h4 class="">&hearts;&hearts;&hearts;&hearts;&hearts;</h4>
+                             </div>
+                             <div class="col-md-8">
+                                 <div class="progress">
+                                     <span class="progress-bar" role="progressbar" aria-valuenow="@Model.Reviews.Count(x => x.Rating > 4) / @Model.Reviews.Count * 100" aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.Review5"></span>
+                                 </div>
+                             </div>
+                             <div class="col-md-2 review-per">
+                                 <h4>(@ViewBag.Review5)</h4>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-2">
+                                 <h4 class="">&hearts;&hearts;&hearts;&hearts;</h4>
+                             </div>
+                             <div class="col-md-8">
+                                 <div class="progress">
+                                     <span class="progress-bar" role="progressbar" aria-valuenow="@Model.Reviews.Count(x => x.Rating > 3 && x.Rating <= 4) * 100/ @Model.Reviews.Count" aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.Review4"></span>
+                                 </div>
+                             </div>
+                             <div class="col-md-2 review-per">
+                                 <h4>(@ViewBag.Review4)</h4>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-2">
+                                 <h4 class="">&hearts;&hearts;&hearts;</h4>
+                             </div>
+                             <div class="col-md-8">
+                                 <div class="progress">
+                                     <span class="progress-bar" role="progressbar" aria-valuenow="@Model.Reviews.Count(x => x.Rating > 2 && x.Rating <= 3) * 100/ @Model.Reviews.Count" aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.Review3"></span>
+                                 </div>
+                             </div>
+                             <div class="col-md-2 review-per">
+                                 <h4>(@ViewBag.Review3)</h4>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-2">
+                                 <h4 class="">&hearts;&hearts;</h4>
+                             </div>
+                             <div class="col-md-8">
+                                 <div class="progress">
+                                     <span class="progress-bar" role="progressbar" aria-valuenow="@Model.Reviews.Count(x => x.Rating > 1 && x.Rating <= 2) * 100/ @Model.Reviews.Count" aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.Review2"></span>
+                                 </div>
+                             </div>
+                             <div class="col-md-2 review-per">
+                                 <h4>(@ViewBag.Review2)</h4>
+                             </div>
+                         </div>
+                         <div class="row">
+                             <div class="col-md-2">
+                                 <h4 class="">&hearts;</h4>
+                             </div>
+                             <div class="col-md-8">
+                                 <div class="progress">
+                                     <span class="progress-bar" role="progressbar" aria-valuenow="@Model.Reviews.Count(x => x.Rating > 0 && x.Rating <= 1) * 100/ @Model.Reviews.Count" aria-valuemin="0" aria-valuemax="100" style="width: @ViewBag.Review1"></span>
+                                 </div>
+                             </div>
+                             <div class="col-md-2 review-per">
+                                 <h4>(@ViewBag.Review1)</h4>
+                             </div>
+                         </div>
+                     </div>
+                     <div class="review-rating-result">
+                         <div class="review-rating-result-box">
+                             <h4>Reviews Average</h4>
+                             @if (Model.Reviews.Count() != 0)
+                             {
+                                 /**/
+                                <h2>@Model.Reviews.Average(x => x.Rating)</h2>
+                             }
+                             else
+                             {
+                                <h2>No Reivew here</h2>
+                             }
+                         </div>
+                     </div>
+                 }
+                 else
+                 {
+                     <div class="review-rating-detail relative">
+                         <h4>Be First Reviewer</h4>
+                     </div>
+                 }
+                                      
+                 </div>
+            </div>
+            <div class="col-md-9" id="review">
+                <div class="review-list-box">
+                    @foreach (var review in Model.Reviews.OrderByDescending(x => x.Like - x.Abuse))
+                    {
+                        <div class="review-box">
+                            <h4 class="review-header">@review.Header<span class="reviewer">&emsp;by @review.AspNetUser.UserName.Split('@')[0]</span>
+                            @for (int i = 0; i < review.Rating; i++)
+                            {
+                                <span class="pull-right">&hearts;</span>
+                            }
+                            </h4>
+                            @if (@review.description.Length > 200)
+                            {
+                                /**/
+                                <h4 class="review-article" ng-show="showAllDescription">@review.description.Substring(0, 200).ToString()</h4>
+                                <h4 class="review-article" ng-show="!showAllDescription">@review.description.ToString()</h4>
+                            }
+                            else
+                            {
+                                <h4 class="review-article">@review.description</h4>
+                            }
+                                                      
+                            <div>
+                                @if (@review.description.Length > 200)
+                                {
+                                    /**/
+                                    <a href="#" ng-click="showAllDescription = false" ng-show="showAllDescription">Detail..</a>
+                                    <a href="#" ng-click="showAllDescription = true" ng-show="!showAllDescription">Collapse..</a>
+
+                                }
+                                @if (User.Identity.Name == review.AspNetUser.UserName)
+                                {
+                                    /**/
+                                    <btn class="btn btn-danger" ng-click="deleteReview(@review.Id)">Delete</btn>
+                                    <btn class="btn btn-default" ng-click="editReview(@review.Id)">Edit</btn>
+                                }
+                                
+                                @if (User.Identity.Name != review.AspNetUser.UserName)
+                                {
+                                    /**/
+                                    <input type="button" class="btn btn-default pull-right" value="Abuse (@review.Abuse)" />
+                                    <input type="button" class="btn btn-success pull-right" value="Recommend (@review.Like)" />
+                                }
+                                
+                            </div>
+                        </div>
+                    }
+                </div>
+                @if (User.Identity.IsAuthenticated)
+                {
+                    if (Model.Reviews.Count(x => x.AspNetUser.UserName == User.Identity.Name) > 0)
+                    {
+                        <div ng-show="editShow">
+                            <h2>Thanks!</h2>
+                            <h3>You already Write Reivew in this Item</h3>
+                        </div>
+                    }
+                    else
+                    {
+                    <div class="write-review" ng-show="editShow">
+                        @using (Html.BeginForm("ReviewCreate", "Product", new { id = Model.Id, name = Model.Category.Name }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <h3>Write your great Review</h3>
+                            <div class="row col-md-12">
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(x => reviewModel.Header)
+                                    @Html.TextBoxFor(x => reviewModel.Header, new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(x => reviewModel.Header)
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(x => reviewModel.Rating)
+                                    @Html.DropDownListFor(x => reviewModel.Rating, ratingList, new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(x => reviewModel.Rating)
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(x => reviewModel.description)
+                                @Html.TextAreaFor(x => reviewModel.description, new { @rows = 8, @maxlength = 1000, @class = "form-control" })
+                                @Html.ValidationMessageFor(x => reviewModel.description)
+                            </div>
+
+                            <input type="submit" value="Submit" class="pull-right btn btn-primary btn-lg"/>
+                            <br /><br /><br />
+                        }
+                    </div>
+                    }
+                    <div class="write-review" ng-show="!editShow">
+                        @using (Html.BeginForm("ReviewEdit", "Product", new { name = Model.Category.Name, productId = Model.Id }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <h3>Edit your great Review</h3>
+                            <div class="row col-md-12">
+                                <div>
+                                    @Html.HiddenFor(x => reviewModel.Id)
+                                </div>
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(x => reviewModel.Header)
+                                    @Html.TextBoxFor(x => reviewModel.Header, new { @class = "form-control", @required = "required", @focus = "focus" })
+                                    @Html.ValidationMessageFor(x => reviewModel.Header)
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    @Html.LabelFor(x => reviewModel.Rating)
+                                    @Html.DropDownListFor(x => reviewModel.Rating, ratingList, new { @class = "form-control", @required = "required" })
+                                    @Html.ValidationMessageFor(x => reviewModel.Rating)
+                                </div>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                @Html.LabelFor(x => reviewModel.description)
+                                @Html.TextAreaFor(x => reviewModel.description, new { @rows = 8, @maxlength = 1000, @class = "form-control" })
+                                @Html.ValidationMessageFor(x => reviewModel.description)
+                            </div>
+                            
+                            <input type="submit" value="Submit" class="pull-right btn btn-primary btn-lg" />
+                            <input type="button" value="Cancel" class="pull-right btn btn-default btn-lg" ng-click="editShow = true"/>
+                            <br /><br /><br />
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,149 @@
+﻿@model WorthIt.Models.Checkout
+@{
+    ViewBag.Title = "Index";
+
+    var state = new List<SelectListItem>();
+    var country = new List<SelectListItem>();
+    List<WorthIt.Models.Address> userAddress = ViewBag.userAddress;
+    List<SelectListItem> month = ViewBag.Month;
+    List<SelectListItem> year = ViewBag.Year;
+}
+
+
+
+<div class="checkout-body by-margin-screen row" ng-controller="checkout">
+    <h2>Order</h2>
+    <div class="col-md-6 checkout-info">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="checkout-card-info row">
+                <div class="col-md-12 row">
+                    <div class="form-group col-md-8">
+                        @Html.Label("Name", new { @class = "control-label" })
+                        @Html.TextBoxFor(x => x.CreditCardName, new { @class = "form-control", placeholder = "Name" })
+                        @Html.ValidationMessageFor(x => x.CreditCardName)
+                    </div>
+                    <div class="form-group col-md-4">
+                        @Html.Label("CVV", new { @class = "control-label" })
+                        @Html.TextBoxFor(x => x.CreditCardVerificationValue, new { @class = "form-control", placeholder = "CVV", maxLength=5 })
+                        @Html.ValidationMessageFor(x => x.CreditCardVerificationValue)
+                    </div>
+                </div>
+
+                <div class="col-md-12 row">
+                    <div class="col-md-6 form-group">
+                        @Html.Label("Card Number", new { @class = "control-label" })
+                        @Html.TextBoxFor(x => x.CreditCardNumber, new { @class = "form-control", placeholder = "Card Number" })
+                        @Html.ValidationMessageFor(x => x.CreditCardNumber)
+                    </div>
+                </div>
+                <div class="col-md-12 row">
+                    <div class="col-md-3 form-group">
+                        @Html.Label("Expiration Date", new { @class = "control-label" })
+                        @Html.DropDownListFor(x => x.CreditCardExpirationMonth, month, new { @class="form-control" })
+                        @Html.ValidationMessage("Month")
+                    </div>
+                    <div class="col-md-3 form-group">
+                        @Html.Label("Year", new { @class = "control-label" })
+                        @Html.DropDownListFor(x => x.CreditCardExpirationYear, year, new { @class = "form-control" })
+                        @Html.ValidationMessage("Year")
+                    </div>
+            </div>
+        </div>
+        <div class="checkout-user-info row">
+            <div class="col-md-12 row">
+                <div class="form-group col-md-6">
+                    @Html.LabelFor(x => x.Email, new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", placeholder = "E-mail" })
+                    @Html.ValidationMessageFor(x => x.Email)
+                </div>
+            </div>
+
+            <div class="col-md-12 row">
+                <div class="form-group col-md-6">
+                    @Html.Label("Shipping Address1", new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.ShippingAddress1, new { @class = "form-control", placeholder = "Shipping Address 1" })
+                    @Html.ValidationMessageFor(x => x.ShippingAddress1)
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.Label("Shipping Address2", new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.ShippingAddress2, new { @class = "form-control", placeholder = "Shipping Address 2" })
+                </div>
+            </div>
+
+            <div class="col-md-12 row">
+                <div class="form-group col-md-6">
+                    @Html.Label("City", new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.ShippingCity, new { @class = "form-control", placeholder = "City" })
+                    @Html.ValidationMessageFor(x => x.ShippingCity)
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.Label("Zip Code", new { @class = "control-label" })
+                    @Html.TextBoxFor(x => x.ZipCode, new { @class = "form-control", placeholder = "Zip" })
+                    @Html.ValidationMessageFor(x => x.ZipCode)
+                </div>
+            </div>
+
+            <div class="col-md-12 row">
+                <div class="form-group col-md-6">
+                    @Html.Label("Country", new { @class = "control-label" })
+                    @Html.DropDownListFor(x => x.ShippingCountry, country, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ShippingCountry)
+                </div>
+
+                <div class="form-group col-md-6">
+                    @Html.Label("State", new { @class = "control-label" })
+                    @Html.DropDownListFor(x => x.ShippingState, state, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.ShippingState)
+                </div>
+            </div>
+        </div>
+
+        <div class="btn-box">
+            <input type="submit" value="Order Now" class="btn btn-lg btn-success pull-right" />
+            <input id="add-shippingAddress" type="button" value="Add Payment Info" class="btn btn-lg btn-default pull-right" />
+        </div>
+    }
+    </div>
+    <div class="col-md-3 col-md-offset-3 validateAddress-container">
+        <h2 class="validateAddress-header">Payment List</h2>
+        @if (userAddress.Count() > 0)
+        {
+            foreach (WorthIt.Models.Address address in userAddress)
+            {
+                <div class="row validateAddressBox">
+                    <div class="address1 row">
+                        @Html.Label("Address", new { @class = "form-label pull-left"})
+                        <h4 class="validateAddress pull-right">@address.ShippingAddress1</h4>
+                    </div>
+                    <div class="address2 row" ng-show="false">
+                        <h4 class="validateAddress">@address.ShippingAddress2</h4>
+                    </div>
+                    <div class="city row">
+                        @Html.Label("City", new { @class = "form-label pull-left"})
+                        <h4 class="validateAddress pull-right">@address.City</h4>
+                    </div>
+                    <div class="country row" ng-show="false">
+                        @Html.Label("Country", new { @class = "form-label pull-left" })
+                        <h4 class="validateAddress pull-right">@address.Country</h4>
+                    </div>
+                    <div class="state row" ng-show="false">
+                        @Html.Label("State", new { @class = "form-label pull-left" })
+                        <h4 class="validateAddress pull-right">@address.State</h4>
+                    </div>
+                    <div class="zip row">
+                        @Html.Label("ZipCode", new { @class = "form-label pull-left" })
+                        <h4 class="validateAddress pull-right">@address.PostalCode</h4>
+                    </div>
+
+                    <input type="button" class="btn btn-danger pull-right" value="Delete" ng-click="deleteAddress(@address.Id)"/>
+                    <input type="button" class="btn btn-success pull-right selectAddress" value="Select"/>
+                </div>
+            }
+        }
+    </div>
+</div>
